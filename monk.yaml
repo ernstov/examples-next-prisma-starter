@@ -1,0 +1,38 @@
+namespace: examples-next-prisma-starter
+
+trpc-starter-db:
+  defines: runnable
+  metadata:
+    name: trpc-starter-db
+    description: The PostgreSQL database used by the web service.
+    icon: https://emojiapi.dev/api/v1/file_cabinet.svg
+  containers:
+    trpc-starter-db:
+      image: postgres
+      build: .
+  services:
+    postgres-default:
+      description: Default port for PostgreSQL database connections
+      container: trpc-starter-db
+      port: 5432
+      host-port: 5432
+      publish: false
+      protocol: tcp
+  connections: {}
+  variables:
+    database-url:
+      env: DATABASE_URL
+      type: string
+      value: postgresql://user:password@localhost:5432/database_name
+      description: Connection string for the PostgreSQL database
+
+stack:
+  defines: group
+  members:
+    - examples-next-prisma-starter/trpc-starter-db
+  metadata:
+    name: '@examples/trpc-next-prisma-starter'
+    description: >-
+      A full-stack React application using Next.js with a Prisma database,
+      designed for deployment on Render.
+    icon: https://emojiapi.dev/api/v1/globe_with_meridians.svg
